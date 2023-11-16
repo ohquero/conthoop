@@ -1,0 +1,208 @@
+services:
+   namenode:
+    image: apache/hadoop:3
+    hostname: namenode
+    command: ["hdfs", "namenode"]
+    ports:
+      - 9870:9870
+    environment:
+        ENSURE_NAMENODE_DIR: "/tmp/hadoop-root/dfs/name"
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
+
+# services:
+#   namenode:
+#     image: apache/hadoop:3
+#     hostname: namenode
+#     command: [ "hdfs", "namenode" ]
+#     ports:
+#       - 9870:9870
+#       - 50070:50070
+#     deploy:
+#       placement:
+#         constraints: [ node.labels.type-hardware==physical ]
+#     environment:
+#       ENSURE_NAMENODE_DIR: "/tmp/hadoop-root/dfs/name"
+#       CORE-SITE.XML_fs.default.name: hdfs://namenode
+#       CORE-SITE.XML_fs.defaultFS: hdfs://namenode
+#       HDFS-SITE.XML_dfs.namenode.rpc-address: namenode:8020
+#       HDFS-SITE.XML_dfs.replication: 2
+#       HDFS-SITE.XML_dfs.permissions.enabled: 0
+#       MAPRED-SITE.XML_mapreduce.framework.name: yarn
+#       MAPRED-SITE.XML_yarn.app.mapreduce.am.env: HADOOP_MAPRED_HOME=/opt/hadoop
+#       MAPRED-SITE.XML_mapreduce.map.env: HADOOP_MAPRED_HOME=/opt/hadoop
+#       MAPRED-SITE.XML_mapreduce.reduce.env: HADOOP_MAPRED_HOME=/opt/hadoop
+#       YARN-SITE.XML_yarn.resourcemanager.hostname: resourcemanager
+#       YARN-SITE.XML_yarn.nodemanager.pmem-check-enabled: 0
+#       YARN-SITE.XML_yarn.nodemanager.delete.debug-delay-sec: 600
+#       YARN-SITE.XML_yarn.nodemanager.vmem-check-enabled: 0
+#       YARN-SITE.XML_yarn.nodemanager.aux-services: mapreduce_shuffle
+#       CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.maximum-applications: 10000
+#       CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.maximum-am-resource-percent: 0.1
+#       CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.resource-calculator: org.apache.hadoop.yarn.util.resource.DefaultResourceCalculator
+#       CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.root.queues: default
+#       CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.root.default.capacity: 100
+#       CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.root.default.user-limit-factor: 1
+#       CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.root.default.maximum-capacity: 100
+#       CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.root.default.state: RUNNING
+#       CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.root.default.acl_submit_applications: "*"
+#       CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.root.default.acl_administer_queue: "*"
+#       CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.node-locality-delay: 40
+#       CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.queue-mappings-override.enable: 0
+#       HADOOP_USER_NAME: hdfs
+
+  # datanode:
+  #   image: apache/hadoop:3
+  #   command: [ "hdfs", "datanode" ]
+  #   # deploy:
+  #   #   mode: replicated
+  #   #   replicas: 3
+  #   #   placement:
+  #   #     constraints: [ node.labels.type-hardware==physical ]
+  #   environment:
+  #     CORE-SITE.XML_fs.default.name: hdfs://namenode
+  #     CORE-SITE.XML_fs.defaultFS: hdfs://namenode
+  #     HDFS-SITE.XML_dfs.namenode.rpc-address: namenode:8020
+  #     HDFS-SITE.XML_dfs.replication: 3
+  #     HDFS-SITE.XML_dfs.permissions.enabled: 0
+  #     MAPRED-SITE.XML_mapreduce.framework.name: yarn
+  #     MAPRED-SITE.XML_yarn.app.mapreduce.am.env: HADOOP_MAPRED_HOME=/opt/hadoop
+  #     MAPRED-SITE.XML_mapreduce.map.env: HADOOP_MAPRED_HOME=/opt/hadoop
+  #     MAPRED-SITE.XML_mapreduce.reduce.env: HADOOP_MAPRED_HOME=/opt/hadoop
+  #     YARN-SITE.XML_yarn.resourcemanager.hostname: resourcemanager
+  #     YARN-SITE.XML_yarn.nodemanager.pmem-check-enabled: 0
+  #     YARN-SITE.XML_yarn.nodemanager.delete.debug-delay-sec: 600
+  #     YARN-SITE.XML_yarn.nodemanager.vmem-check-enabled: 0
+  #     YARN-SITE.XML_yarn.nodemanager.aux-services: mapreduce_shuffle
+  #     CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.maximum-applications: 10000
+  #     CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.maximum-am-resource-percent: 0.1
+  #     CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.resource-calculator: org.apache.hadoop.yarn.util.resource.DefaultResourceCalculator
+  #     CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.root.queues: default
+  #     CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.root.default.capacity: 100
+  #     CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.root.default.user-limit-factor: 1
+  #     CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.root.default.maximum-capacity: 100
+  #     CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.root.default.state: RUNNING
+  #     CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.root.default.acl_submit_applications: "*"
+  #     CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.root.default.acl_administer_queue: "*"
+  #     CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.node-locality-delay: 40
+  #     CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.queue-mappings-override.enable: 0
+  #     HADOOP_USER_NAME: hdfs
+
+  # resourcemanager:
+  #   image: apache/hadoop:3
+  #   hostname: resourcemanager
+  #   command: [ "yarn", "resourcemanager" ]
+  #   ports:
+  #     - 8088:8088
+  #   deploy:
+  #     placement:
+  #       constraints: [ node.labels.type-hardware==physical ]
+  #   environment:
+  #     CORE-SITE.XML_fs.default.name: hdfs://namenode
+  #     CORE-SITE.XML_fs.defaultFS: hdfs://namenode
+  #     HDFS-SITE.XML_dfs.namenode.rpc-address: namenode:8020
+  #     HDFS-SITE.XML_dfs.replication: 2
+  #     HDFS-SITE.XML_dfs.permissions.enabled: 0
+  #     MAPRED-SITE.XML_mapreduce.framework.name: yarn
+  #     MAPRED-SITE.XML_yarn.app.mapreduce.am.env: HADOOP_MAPRED_HOME=/opt/hadoop
+  #     MAPRED-SITE.XML_mapreduce.map.env: HADOOP_MAPRED_HOME=/opt/hadoop
+  #     MAPRED-SITE.XML_mapreduce.reduce.env: HADOOP_MAPRED_HOME=/opt/hadoop
+  #     YARN-SITE.XML_yarn.resourcemanager.hostname: 0.0.0.0
+  #     YARN-SITE.XML_yarn.nodemanager.pmem-check-enabled: 0
+  #     YARN-SITE.XML_yarn.nodemanager.delete.debug-delay-sec: 600
+  #     YARN-SITE.XML_yarn.nodemanager.vmem-check-enabled: 0
+  #     YARN-SITE.XML_yarn.nodemanager.aux-services: mapreduce_shuffle
+  #     CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.maximum-applications: 10000
+  #     CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.maximum-am-resource-percent: 0.1
+  #     CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.resource-calculator: org.apache.hadoop.yarn.util.resource.DefaultResourceCalculator
+  #     CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.root.queues: default
+  #     CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.root.default.capacity: 100
+  #     CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.root.default.user-limit-factor: 1
+  #     CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.root.default.maximum-capacity: 100
+  #     CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.root.default.state: RUNNING
+  #     CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.root.default.acl_submit_applications: "*"
+  #     CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.root.default.acl_administer_queue: "*"
+  #     CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.node-locality-delay: 40
+  #     CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.queue-mappings-override.enable: 0
+  #     HADOOP_USER_NAME: hdfs
+
+  # nodemanager:
+  #   image: apache/hadoop:3
+  #   hostname: nodemanager
+  #   command: [ "yarn", "nodemanager" ]
+  #   ports:
+  #     - 8042:8042
+  #   deploy:
+  #     placement:
+  #       constraints: [ node.labels.type-hardware==physical ]
+  #   environment:
+  #     ENSURE_NAMENODE_DIR: "/tmp/hadoop-root/dfs/name"
+  #     CORE-SITE.XML_fs.default.name: hdfs://namenode
+  #     CORE-SITE.XML_fs.defaultFS: hdfs://namenode
+  #     HDFS-SITE.XML_dfs.namenode.rpc-address: namenode:8020
+  #     HDFS-SITE.XML_dfs.replication: 2
+  #     HDFS-SITE.XML_dfs.permissions.enabled: 0
+  #     MAPRED-SITE.XML_mapreduce.framework.name: yarn
+  #     MAPRED-SITE.XML_yarn.app.mapreduce.am.env: HADOOP_MAPRED_HOME=/opt/hadoop
+  #     MAPRED-SITE.XML_mapreduce.map.env: HADOOP_MAPRED_HOME=/opt/hadoop
+  #     MAPRED-SITE.XML_mapreduce.reduce.env: HADOOP_MAPRED_HOME=/opt/hadoop
+  #     YARN-SITE.XML_yarn.resourcemanager.hostname: resourcemanager
+  #     YARN-SITE.XML_yarn.nodemanager.pmem-check-enabled: 0
+  #     YARN-SITE.XML_yarn.nodemanager.delete.debug-delay-sec: 600
+  #     YARN-SITE.XML_yarn.nodemanager.vmem-check-enabled: 0
+  #     YARN-SITE.XML_yarn.nodemanager.aux-services: mapreduce_shuffle
+  #     CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.maximum-applications: 10000
+  #     CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.maximum-am-resource-percent: 0.1
+  #     CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.resource-calculator: org.apache.hadoop.yarn.util.resource.DefaultResourceCalculator
+  #     CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.root.queues: default
+  #     CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.root.default.capacity: 100
+  #     CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.root.default.user-limit-factor: 1
+  #     CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.root.default.maximum-capacity: 100
+  #     CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.root.default.state: RUNNING
+  #     CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.root.default.acl_submit_applications: "*"
+  #     CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.root.default.acl_administer_queue: "*"
+  #     CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.node-locality-delay: 40
+  #     CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.queue-mappings-override.enable: 0
+  #     HADOOP_USER_NAME: hdfs
+
+  # historyserver:
+  #   image: apache/hadoop:3
+  #   hostname: historyserver
+  #   command: [ "yarn", "historyserver" ]
+  #   ports:
+  #     - 19888:19888
+  #     - 8188:8188
+  #   deploy:
+  #     placement:
+  #       constraints: [ node.labels.type-hardware==physical ]
+  #   environment:
+  #     ENSURE_NAMENODE_DIR: "/tmp/hadoop-root/dfs/name"
+  #     CORE-SITE.XML_fs.default.name: hdfs://namenode
+  #     CORE-SITE.XML_fs.defaultFS: hdfs://namenode
+  #     HDFS-SITE.XML_dfs.namenode.rpc-address: namenode:8020
+  #     HDFS-SITE.XML_dfs.replication: 2
+  #     HDFS-SITE.XML_dfs.permissions.enabled: 0
+  #     MAPRED-SITE.XML_mapreduce.framework.name: yarn
+  #     MAPRED-SITE.XML_yarn.app.mapreduce.am.env: HADOOP_MAPRED_HOME=/opt/hadoop
+  #     MAPRED-SITE.XML_mapreduce.map.env: HADOOP_MAPRED_HOME=/opt/hadoop
+  #     MAPRED-SITE.XML_mapreduce.reduce.env: HADOOP_MAPRED_HOME=/opt/hadoop
+  #     YARN-SITE.XML_yarn.resourcemanager.hostname: resourcemanager
+  #     YARN-SITE.XML_yarn.nodemanager.pmem-check-enabled: 0
+  #     YARN-SITE.XML_yarn.nodemanager.delete.debug-delay-sec: 600
+  #     YARN-SITE.XML_yarn.nodemanager.vmem-check-enabled: 0
+  #     YARN-SITE.XML_yarn.nodemanager.aux-services: mapreduce_shuffle
+  #     CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.maximum-applications: 10000
+  #     CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.maximum-am-resource-percent: 0.1
+  #     CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.resource-calculator: org.apache.hadoop.yarn.util.resource.DefaultResourceCalculator
+  #     CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.root.queues: default
+  #     CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.root.default.capacity: 100
+  #     CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.root.default.user-limit-factor: 1
+  #     CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.root.default.maximum-capacity: 100
+  #     CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.root.default.state: RUNNING
+  #     CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.root.default.acl_submit_applications: "*"
+  #     CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.root.default.acl_administer_queue: "*"
+  #     CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.node-locality-delay: 40
+  #     CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.queue-mappings-override.enable: 0
+  #     HADOOP_USER_NAME: hdfs
