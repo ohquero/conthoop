@@ -5,7 +5,7 @@ services:
     image: apache/hadoop:3
     command: [ "hdfs", "namenode" ]
     env_file:
-      - fileName: hadoop.env
+      - hadoop.env
     ports:
       - 9870:9870
       - 50070:50070
